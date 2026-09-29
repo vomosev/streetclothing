@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
@@ -8,7 +8,7 @@ import Card, { CardBody, CardFooter, CardHeader } from '../../components/ui/Card
 import Input, { Field } from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 
-export default function SignupPage() {
+function SignupForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { signup } = useAuth();
@@ -168,5 +168,13 @@ export default function SignupPage() {
         </Card>
       </div>
     </section>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={null}>
+      <SignupForm />
+    </Suspense>
   );
 }
