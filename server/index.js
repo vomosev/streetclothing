@@ -100,7 +100,41 @@ payments.attachPaymentRoutes(app, {
   },
 });
 
-payments.on('payment.succeeded', async (event) => {
+/**
+ * The payments module does not necessarily expose an EventEmitter interface.
+ * Depending on the version it may expose `on`, an `events`/`emitter` emitter,
+ * or a dedicated `onPaymentSucceeded` hook. Resolve whichever is available and
+ * degrade gracefully (with a warning) instead of crashing at boot.
+ */
+function subscribeToPaymentEvent(eventName, handler) {
+  const candidates = [
+    payments,
+    payments && payments.events,
+    payments && payments.emitter,
+    payments && payments.bus,
+  ];
+
+  for (const candidate of candidates) {
+    if (candidate && typeof candidate.on === 'function') {
+      candidate.on(eventName, handler);
+      return true;
+    }
+  }
+
+  if (typeof payments.subscribe === 'function') {
+    payments.subscribe(eventName, handler);
+    return true;
+  }
+
+  if (eventName === 'payment.succeeded' && typeof payments.onPaymentSucceeded === 'function') {
+    payments.onPaymentSucceeded(handler);
+    return true;
+  }
+
+  return false;
+}
+
+async function handlePaymentSucceeded(event) {
   try {
     const itemId = event && event.itemId ? String(event.itemId) : '';
     if (!itemId.startsWith('order:')) return;
@@ -108,7 +142,14 @@ payments.on('payment.succeeded', async (event) => {
   } catch (err) {
     console.error('[payments] failed to fulfil order:', err.message);
   }
-});
+}
+
+if (!subscribeToPaymentEvent('payment.succeeded', handlePaymentSucceeded)) {
+  console.warn(
+    '[payments] no event subscription API available (payments.on/events/subscribe missing) — ' +
+      'orders will not be auto-fulfilled from payment events'
+  );
+}
 
 app.use(notFound);
 app.use(errorHandler);
