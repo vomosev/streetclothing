@@ -1,0 +1,9 @@
+{
+  "providers": [
+    "flutterwave",
+    "paypal",
+    "paystack",
+    "stripe"
+  ],
+  "currency": "USD"
+}

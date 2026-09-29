@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="STREET/PLATINUM">
+  <defs>
+    <linearGradient id="platinum" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F4F5F7"/>
+      <stop offset="45%" stop-color="#C8CBD2"/>
+      <stop offset="100%" stop-color="#8C9098"/>
+    </linearGradient>
+    <linearGradient id="streak" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="64" height="64" rx="14" fill="#0A0A0B"/>
+  <rect x="1" y="1" width="62" height="62" rx="13" fill="none" stroke="#2A2C31" stroke-width="2"/>
+  <path d="M-6 44 L26 -4 L40 -4 L8 44 Z" fill="url(#streak)"/>
+  <g fill="url(#platinum)" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="24" letter-spacing="-1">
+    <text x="12" y="30" text-anchor="middle">S</text>
+    <text x="50" y="52" text-anchor="middle">P</text>
+  </g>
+  <line x1="18" y1="50" x2="46" y2="14" stroke="url(#platinum)" stroke-width="3" stroke-linecap="round"/>
+</svg>
