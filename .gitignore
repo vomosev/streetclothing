@@ -65,3 +65,6 @@ Thumbs.db
 tmp/
 temp/
 .vercel
+
+# Added by install_backend.js — the deploy writes real secrets into .env
+node_modules
